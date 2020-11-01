@@ -42,3 +42,4 @@ service :
 - [qrcode](https://github.com/soldair/node-qrcode)
 - [Bootstrap](https://getbootstrap.com/)
 - [Font Awesome](https://fontawesome.com/license)
+- [IDB](https://github.com/jakearchibald/idb)
