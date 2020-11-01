@@ -1,6 +1,6 @@
 import { openDB } from 'idb'
 
-import { $, appendTo, createElement } from './dom-utils'
+import { $, $$, appendTo, createElement } from './dom-utils'
 
 const db = openDB('profiles-store', 1, {
   upgrade (db) {
@@ -14,8 +14,12 @@ const db = openDB('profiles-store', 1, {
 const listProfiles = async () => (await db).getAll('profiles')
 const getProfile = async (id) => (await db).get('profiles', parseInt(id))
 
-const createProfile = async (profile) => {
-  (await db).add('profiles', profile)
+const createProfile = async (profile) => (await db).add('profiles', profile)
+
+const simplifyReasons = () => {
+  $$('#reason-fieldset label').forEach(label => {
+    label.innerText = label.getAttribute('for').split('-')[1]
+  })
 }
 
 const applyProfile = async (id) => {
@@ -33,6 +37,11 @@ const applyProfile = async (id) => {
             field.value = profile[key]
           }
         })
+
+    //skip to the important fields
+    location.href = '#field-datesortie'
+
+    simplifyReasons()
   }
 }
 
