@@ -145,6 +145,18 @@ p {
   margin-right: auto;
 }
 
+#reason-fieldset input { 
+  visibility: hidden;
+}
+
+#reason-fieldset input ~ .btn { 
+  width: 100%;
+}
+
+#reason-fieldset input:checked ~ .btn { 
+  background-color: #00a94f;
+}
+
 #form-profile .form-radio .form-check {
   margin-bottom: 1rem;
 }

@@ -18,7 +18,10 @@ const createProfile = async (profile) => (await db).add('profiles', profile)
 
 const simplifyReasons = () => {
   $$('#reason-fieldset label').forEach(label => {
+    const tooltip = label.innerText
     label.innerText = label.getAttribute('for').split('-')[1]
+    label.title = tooltip
+    label.setAttribute('class', 'btn btn-primary check-label')
   })
 }
 
@@ -40,8 +43,6 @@ const applyProfile = async (id) => {
 
     //skip to the important fields
     location.href = '#field-datesortie'
-
-    simplifyReasons()
   }
 }
 
@@ -64,4 +65,6 @@ export const prepareProfiles = async () => {
 
   ;[{id: 0, firstname: '---'}, ...(await listProfiles())]
     .forEach(p => appendProfileOption(p.id, p.firstname))
+    
+  simplifyReasons()
 }
