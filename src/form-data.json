@@ -1,6 +1,13 @@
 [
   [
     {
+      "key": "profile",
+      "type": "select",
+      "contentType": "profile",
+      "label": "Profil",
+      "autocomplete": ""
+    },
+    {
       "key": "firstname",
       "type": "text",
       "contentType": "firstname",

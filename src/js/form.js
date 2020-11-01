@@ -14,8 +14,8 @@ const createTitle = () => {
 // createElement('div', { className: 'form-group' })
 
 const getCurrentTime = () => {
-  const date = new Date();
-  return date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+  const date = new Date()
+  return date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
 }
 
 const createFormGroup = ({
@@ -41,24 +41,41 @@ const createFormGroup = ({
   const labelEl = createElement('label', labelAttrs)
 
   const inputGroup = createElement('div', { className: 'input-group align-items-center' })
-  const inputAttrs = {
-    autocomplete,
-    autofocus,
-    className: 'form-control',
-    id: `field-${name}`,
-    inputmode,
-    min,
-    max,
-    minlength,
-    maxlength,
-    name,
-    pattern,
-    placeholder,
-    required: true,
-    type,
-  }
+  const inputAttrs = type === 'select' 
+    ? {
+      className: 'form-control',
+      id: `field-${name}`,
+      inputmode,
+      min,
+      max,
+      minlength,
+      maxlength,
+      name,
+      pattern,
+      name,
+    }
+    : {
+      autocomplete,
+      autofocus,
+      className: 'form-control',
+      id: `field-${name}`,
+      inputmode,
+      min,
+      max,
+      minlength,
+      maxlength,
+      name,
+      pattern,
+      placeholder,
+      required: true,
+      type
+    }
 
-  const input = createElement('input', inputAttrs)
+  const tag = type === 'select' 
+    ? 'select'
+    : 'input'
+
+  const input = createElement(tag, inputAttrs)
 
   if (name === 'heuresortie') {
     input.value = getCurrentTime()
@@ -74,7 +91,8 @@ const createFormGroup = ({
   appendToFormGroup(inputGroup)
 
   const appendToInputGroup = appendTo(inputGroup)
-  appendToInputGroup(input)
+  //TODO why ?
+  inputGroup.append(input)
   appendToInputGroup(validity)
 
   return formGroup
