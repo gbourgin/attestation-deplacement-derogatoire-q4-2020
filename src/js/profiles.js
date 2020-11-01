@@ -12,16 +12,14 @@ const db = openDB('profiles-store', 1, {
 })
 
 const listProfiles = async () => (await db).getAll('profiles')
-const getProfile = async (id) => (await db).get('profiles').get(id)
+const getProfile = async (id) => (await db).get('profiles', parseInt(id))
 
-export const createProfile = async (profile) => {
+const createProfile = async (profile) => {
   (await db).add('profiles', profile)
 }
 
-export const applyProfile = async (id) => {
-  const profile = (await getProfile(id))
-
-  console.log(profile)
+const applyProfile = async (id) => {
+  const profile = await getProfile(id)
 
   if (profile) {
       Object.keys(profile)
@@ -29,16 +27,24 @@ export const applyProfile = async (id) => {
           && key != 'datesortie' 
           && key != 'heuresortie')
         .forEach(key => {
-          $(`#field-${key}`).value = profile[key]
+          const field = $(`#field-${key}`)
+
+          if (field) {
+            field.value = profile[key]
+          }
         })
   }
 }
+
+const clearForm = () => console.warn('not implemented')
 
 export const prepareProfiles = async () => {
   
   $('#field-profile').addEventListener(
     'change', 
-    event => applyProfile(event.target.value)
+    event => event.target.value == 0 
+      ? clearForm()
+      : applyProfile(event.target.value)
   )
 
   const appendProfileOption = (id, name) => {
@@ -47,6 +53,6 @@ export const prepareProfiles = async () => {
     )
   }
 
-  (await listProfiles())
+  ;[{id: 0, firstname: '---'}, ...(await listProfiles())]
     .forEach(p => appendProfileOption(p.id, p.firstname))
 }
